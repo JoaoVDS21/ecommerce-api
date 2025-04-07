@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn, OneToOne, ManyToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn, OneToOne, ManyToMany, JoinTable } from 'typeorm';
 import { Tenant } from '../../tenants/entities/tenant.entity';
 import { Product } from 'src/products/entities/product.entity';
 
@@ -19,6 +19,13 @@ export class Category {
 
   @Column({ default: true })
   isActive: boolean;
+  
+  @ManyToMany(() => Product, (product) => product.shelves, {
+    cascade: true,
+    onDelete: 'CASCADE'
+  })
+  @JoinTable()
+  products: Product[];
 
   @CreateDateColumn()
   createdAt: Date;

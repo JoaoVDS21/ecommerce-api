@@ -13,13 +13,22 @@ export class ProductsService {
   constructor(
     private readonly ecommerceFactory: EcommerceFactory,
     @InjectRepository(Product) private productRepository: Repository<Product>,
-    @InjectRepository(Category) private categoryRepository: Repository<Category>,
+    @InjectRepository(Category) private categoryRepository: Repository<Category>
   ) {}
 
   async create(tenant: Tenant, body: CreateProductDto) {    
-    const product = this.productRepository.create({
-      ...body,
-      tenantId: tenant.id
+    const product = new Product()
+
+    product.name = body.name,
+    product.price = body.price,
+    product.description = body.description,
+    product.tenantId = tenant.id,
+    product.isActive = body.isActive
+    product.categories = await this.categoryRepository.find({
+      where: {
+        tenantId: tenant.id,
+        id: In(body.categories_ids)
+      }
     })
     
     return this.productRepository.save(product);
@@ -38,6 +47,13 @@ export class ProductsService {
     product.description = body.description || product.description;
     product.name = body.name || product.name;
     product.price = body.price || product.price;
+    product.isActive = body.isActive || product.isActive;
+    product.categories = await this.categoryRepository.find({
+      where: {
+        tenantId: tenant.id,
+        id: In(body.categories_ids || [])
+      }
+    })
     
     const update = await this.productRepository.save(product)
 
@@ -63,8 +79,8 @@ export class ProductsService {
       id,
     }
     
-    return this.productRepository.findOneBy({
-      ...options
+    return this.productRepository.findOne({
+      where: options
     });
   }
 

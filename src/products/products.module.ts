@@ -6,9 +6,10 @@ import { TenantModule } from '../tenants/tenant.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Product } from './entities/product.entity';
 import { Category } from 'src/categories/entities/category.entity';
+import { Shelf } from 'src/shelves/entities/shelf.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Product, Category]), EcommerceModule, TenantModule],
+  imports: [TypeOrmModule.forFeature([Product, Category, Shelf]), EcommerceModule, TenantModule],
   controllers: [ProductsController],
   providers: [ProductsService],
 })

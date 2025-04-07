@@ -21,6 +21,11 @@ export class Product {
     onDelete: 'CASCADE'
   })
   shelves: Shelf[]
+
+  @ManyToMany(() => Category, (category) => category.products, {
+    onDelete: 'CASCADE'
+  })
+  categories: Category[]
   
   @Column({nullable: true})
   tenantId: string;
