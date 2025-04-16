@@ -22,7 +22,7 @@ export class BannersController {
       ]
     })) image: Express.Multer.File
   ) {
-    const imageUrl = `/uploads/${tenant?.id}/${image.filename}`;
+    const imageUrl = `/uploads/${image.filename}`;
     
     return this.bannersService.create(tenant, {
       ...body,
@@ -44,7 +44,7 @@ export class BannersController {
     })) image: Express.Multer.File
   ) {
     if (image) {
-      body.imageUrl = `/uploads/${tenant?.id}/${image.filename}`;
+      body.imageUrl = `/uploads/${image.filename}`;
     }
 
     return this.bannersService.update(tenant, +id, body);

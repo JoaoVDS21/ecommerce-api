@@ -72,8 +72,7 @@ export class BannersService {
 
   async delete(tenant: Tenant, id: number) {
     return this.bannerRepository.delete({
-      id,
-      tenantId: tenant?.id
+      id
     })
   }
 

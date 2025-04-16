@@ -24,7 +24,7 @@ export class ProductsController {
       ]
     })) image: Express.Multer.File
   ) {
-    const imageUrl = `/uploads/${tenant?.id}/${image.filename}`;
+    const imageUrl = `/uploads/${image.filename}`;
     
     return this.productsService.create(tenant, {
       ...body,
@@ -46,7 +46,7 @@ export class ProductsController {
     })) image: Express.Multer.File
   ) {
     if (image) {
-      body.imageUrl = `/uploads/${tenant?.id}/${image.filename}`;
+      body.imageUrl = `/uploads/${image.filename}`;
     }
 
     return this.productsService.update(tenant, +id, body);

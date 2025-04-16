@@ -4,8 +4,7 @@ import { extname } from 'path';
 
 export const storage = diskStorage({
   destination: (req: any, file, cb) => {
-    const tenantId = req.tenant?.id || 'default';
-    const uploadPath = `uploads/${tenantId}`;
+    const uploadPath = `uploads`;
     
     // Cria o diretório se não existir
     if (!existsSync(uploadPath)) {
