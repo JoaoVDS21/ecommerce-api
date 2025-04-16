@@ -19,6 +19,9 @@ export class Category {
 
   @Column({ default: true })
   isActive: boolean;
+
+  @Column({nullable: true})
+  imageUrl: string;
   
   @ManyToMany(() => Product, (product) => product.shelves, {
     cascade: true,

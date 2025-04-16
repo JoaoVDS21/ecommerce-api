@@ -13,6 +13,9 @@ export class Shelf {
   @Column({nullable: true})
   position: number;
 
+  @Column({nullable: true})
+  imageUrl: string;
+
   @ManyToMany(() => Product, (product) => product.shelves, {
     cascade: true,
     onDelete: 'CASCADE'

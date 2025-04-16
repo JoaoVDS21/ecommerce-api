@@ -16,20 +16,16 @@ export class ProductsService {
     @InjectRepository(Category) private categoryRepository: Repository<Category>
   ) {}
 
-  async create(tenant: Tenant, body: CreateProductDto) {    
+  async create(tenant: Tenant, body: CreateProductDto) {
+    
     const product = new Product()
 
     product.name = body.name,
     product.price = body.price,
     product.description = body.description,
-    product.tenantId = tenant.id,
+    product.tenantId = tenant?.id,
     product.isActive = body.isActive
-    product.categories = await this.categoryRepository.find({
-      where: {
-        tenantId: tenant.id,
-        id: In(body.categories_ids)
-      }
-    })
+    product.imageUrl = body.imageUrl
     
     return this.productRepository.save(product);
   }
@@ -37,7 +33,7 @@ export class ProductsService {
   async update(tenant: Tenant, id: number, body: UpdateProductDto) {
     let product = await this.productRepository.findOneBy({
       id,
-      tenantId: tenant.id  
+      tenantId: tenant?.id  
     })
 
     if(!product?.id) {
@@ -48,12 +44,7 @@ export class ProductsService {
     product.name = body.name || product.name;
     product.price = body.price || product.price;
     product.isActive = body.isActive || product.isActive;
-    product.categories = await this.categoryRepository.find({
-      where: {
-        tenantId: tenant.id,
-        id: In(body.categories_ids || [])
-      }
-    })
+    product.imageUrl = body.imageUrl || product.imageUrl;
     
     const update = await this.productRepository.save(product)
 
@@ -62,7 +53,7 @@ export class ProductsService {
   
   async findAll(tenant: any, params?: any) {
     const options = {
-      tenantId: tenant.id
+      tenantId: tenant?.id
     }
 
     return this.productRepository.find({
@@ -75,7 +66,7 @@ export class ProductsService {
 
   async findOne(tenant: any, id: number) {
     const options = {
-      tenantId: tenant.id,
+      tenantId: tenant?.id,
       id,
     }
     

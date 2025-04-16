@@ -26,7 +26,7 @@ export class ShelvesService {
             position: () => 'position + 1' // Incrementa a posição usando SQL puro
           })
           .where('tenantId = :tenantId AND position >= :position', {
-            tenantId: tenant.id,
+            tenantId: tenant?.id,
             position: body.position
           })
           .execute();
@@ -36,7 +36,7 @@ export class ShelvesService {
       shelf.title = body.title;
       shelf.position = body.position;
       shelf.isActive = body.isActive;
-      shelf.tenantId = tenant.id;
+      shelf.tenantId = tenant?.id;
       
       shelf.products = await transactionalEntityManager
         .getRepository(Product)
@@ -53,7 +53,7 @@ export class ShelvesService {
   async update(tenant: Tenant, id: number, body: UpdateShelfDto) {
     let shelf = await this.shelfRepository.findOneBy({
       id,
-      tenantId: tenant.id  
+      tenantId: tenant?.id  
     })
 
     if(!shelf?.id) {
@@ -76,7 +76,7 @@ export class ShelvesService {
   
   async findAll(tenant: Tenant, params?: any) {
     const options = {
-      tenantId: tenant.id
+      tenantId: tenant?.id
     }
 
     return this.shelfRepository.find({
@@ -92,7 +92,7 @@ export class ShelvesService {
 
   async findOne(tenant: Tenant, id: number) {
     const options = {
-      tenantId: tenant.id,
+      tenantId: tenant?.id,
       id,
     }
     
@@ -107,7 +107,7 @@ export class ShelvesService {
   async delete(tenant: Tenant, id: number) {
     return this.shelfRepository.delete({
       id,
-      tenantId: tenant.id
+      tenantId: tenant?.id
     })
   }
 

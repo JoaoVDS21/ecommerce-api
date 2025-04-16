@@ -7,7 +7,6 @@ import { CreateShelfDto } from './dto/create-shelf.dto';
 import { UpdateShelfDto } from './dto/update-shelf.dto';
 
 @Controller('shelves')
-@UseGuards(AuthTenantGuard)
 export class ShelvesController {
   constructor(private readonly shelvesService: ShelvesService) {}
 
