@@ -77,7 +77,7 @@ export class CategoriesService {
   async delete(tenant: Tenant, id: number) {
     return this.categoryRepository.delete({
       id,
-      tenantId: tenant.id
+      tenantId: tenant?.id
     })
   }
 

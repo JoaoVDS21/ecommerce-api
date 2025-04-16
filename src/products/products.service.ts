@@ -78,7 +78,7 @@ export class ProductsService {
   async delete(tenant: Tenant, id: number) {
     return this.productRepository.delete({
       id,
-      tenantId: tenant.id
+      tenantId: tenant?.id
     })
   }
 

@@ -1,22 +1,20 @@
 import { Body, Controller, Delete, FileTypeValidator, Get, MaxFileSizeValidator, Param, ParseFilePipe, Post, Put, Query, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
-import { ProductsService } from './products.service';
+import { BannersService } from './banners.service';
 import { CurrentTenant } from '../common/decorators/tenant.decorator';
-import { AuthTenantGuard } from 'src/auth/guards/auth-tenant.guard';
-import { Product } from './entities/product.entity';
-import { CreateProductDto } from './dto/create-product.dto';
-import { UpdateProductDto } from './dto/update-product.dto';
+import { CreateBannerDto } from './dto/create-banner.dto';
+import { UpdateBannerDto } from './dto/update-banner.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { storage } from 'src/common/utils/storage.multer';
 
-@Controller('products')
-export class ProductsController {
-  constructor(private readonly productsService: ProductsService) {}
+@Controller('banners')
+export class BannersController {
+  constructor(private readonly bannersService: BannersService) {}
 
   @Post()
   @UseInterceptors(FileInterceptor('image', { storage }))
   create(
     @CurrentTenant() tenant, 
-    @Body() body: CreateProductDto,
+    @Body() body: CreateBannerDto,
     @UploadedFile(new ParseFilePipe({
       validators: [
         new MaxFileSizeValidator({maxSize: 5 * 1024 * 1024}), // 5mb
@@ -26,7 +24,7 @@ export class ProductsController {
   ) {
     const imageUrl = `/uploads/${tenant?.id}/${image.filename}`;
     
-    return this.productsService.create(tenant, {
+    return this.bannersService.create(tenant, {
       ...body,
       imageUrl
     });
@@ -37,7 +35,7 @@ export class ProductsController {
   update(
     @CurrentTenant() tenant, 
     @Param('id') id: string,
-    @Body() body: UpdateProductDto,
+    @Body() body: UpdateBannerDto,
     @UploadedFile(new ParseFilePipe({
       validators: [
         new MaxFileSizeValidator({maxSize: 5 * 1024 * 1024}), // 5mb
@@ -49,21 +47,21 @@ export class ProductsController {
       body.imageUrl = `/uploads/${tenant?.id}/${image.filename}`;
     }
 
-    return this.productsService.update(tenant, +id, body);
+    return this.bannersService.update(tenant, +id, body);
   }
   
   @Get()
   findAll(@CurrentTenant() tenant, @Query() params) {
-    return this.productsService.findAll(tenant, params);
+    return this.bannersService.findAll(tenant, params);
   }
 
   @Get(':id')
   findOne(@CurrentTenant() tenant, @Param('id') id: string) {
-    return this.productsService.findOne(tenant, +id);
+    return this.bannersService.findOne(tenant, +id);
   } 
 
   @Delete(':id')
   delete(@CurrentTenant() tenant, @Param('id') id: string) {
-    return this.productsService.delete(tenant, +id);
+    return this.bannersService.delete(tenant, +id);
   }
 }
