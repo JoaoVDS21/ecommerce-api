@@ -15,7 +15,7 @@ export class AuthService {
   ) {}
 
   async validateUser(email: string, password: string, tenantId?: string): Promise<any> {
-    const user = await this.usersService.findByEmail(email, tenantId);
+    const user = await this.usersService.findByEmail(email);
     
     if (user && await bcrypt.compare(password, user.password)) {
       const { password, ...result } = user;
@@ -32,7 +32,7 @@ export class AuthService {
   }
 
   async login(loginDto: LoginDto, tenant: Tenant): Promise<{ access_token: string; user: any }> {
-    const isValidLogin = await this.validateUser(loginDto.email, loginDto.password, tenant.id)
+    const isValidLogin = await this.validateUser(loginDto.email, loginDto.password, tenant?.id)
 
     if(!isValidLogin) {
       throw new BadRequestException('Credenciais inválidas.')
