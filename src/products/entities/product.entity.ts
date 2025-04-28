@@ -17,6 +17,9 @@ export class Product {
   @Column({type: 'text'})
   description: string; 
 
+  @Column({default: 0})
+  stock: number;
+
   @ManyToMany(() => Shelf, (shelf) => shelf.products, {
     onDelete: 'CASCADE'
   })

@@ -15,19 +15,19 @@ export class CreateProductDto {
   @IsNotEmpty()
   description: string;
 
+  @IsNumber()
+  @Type(() => Number)
+  @IsNotEmpty()
+  stock: number;
+  
   @IsBoolean()
   @Type(() => Boolean)
-  @IsNotEmpty()
+  @IsOptional()
   isActive: boolean;
 
   @IsString()
   @IsOptional()
   tenantId: string;
-
-  @IsArray()
-  @IsNumber({}, {each: true})
-  @Type(() => Number)
-  categoriesIds: number[];
 
   @IsOptional()
   imageUrl: string;

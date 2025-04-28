@@ -23,6 +23,7 @@ export class ProductsService {
     product.name = body.name,
     product.price = body.price,
     product.description = body.description,
+    product.stock = body.stock,
     product.tenantId = tenant?.id,
     product.isActive = body.isActive
     product.imageUrl = body.imageUrl
@@ -43,6 +44,7 @@ export class ProductsService {
     product.description = body.description || product.description;
     product.name = body.name || product.name;
     product.price = body.price || product.price;
+    product.stock = body.stock || product.stock;
     product.isActive = body.isActive || product.isActive;
     product.imageUrl = body.imageUrl || product.imageUrl;
     
@@ -76,6 +78,8 @@ export class ProductsService {
   }
 
   async delete(tenant: Tenant, id: number) {
+    console.log('tenant', tenant)
+    
     return this.productRepository.delete({
       id,
       tenantId: tenant?.id
