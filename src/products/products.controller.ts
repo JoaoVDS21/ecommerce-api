@@ -9,6 +9,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { storage } from 'src/common/utils/storage.multer';
 
 @Controller('products')
+@UseGuards(AuthTenantGuard)
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
@@ -18,18 +19,18 @@ export class ProductsController {
     @CurrentTenant() tenant, 
     @Body() body: CreateProductDto,
     @UploadedFile(new ParseFilePipe({
+      fileIsRequired: false,
       validators: [
         new MaxFileSizeValidator({maxSize: 5 * 1024 * 1024}), // 5mb
         new FileTypeValidator({ fileType: /image\/(jpeg|jpg|png|webp)/ })
       ]
     })) image: Express.Multer.File
   ) {
-    const imageUrl = `/uploads/${image.filename}`;
+    if (image) {
+      body.imageUrl = `/uploads/${image.filename}`;
+    }
     
-    return this.productsService.create(tenant, {
-      ...body,
-      imageUrl
-    });
+    return this.productsService.create(tenant, body);
   }
 
   @Put(':id')
@@ -39,6 +40,7 @@ export class ProductsController {
     @Param('id') id: string,
     @Body() body: UpdateProductDto,
     @UploadedFile(new ParseFilePipe({
+      fileIsRequired: false,
       validators: [
         new MaxFileSizeValidator({maxSize: 5 * 1024 * 1024}), // 5mb
         new FileTypeValidator({ fileType: /image\/(jpeg|jpg|png|webp)/ })

@@ -31,7 +31,7 @@ export class AuthController {
   }
 
   @Post('login')
-  @UseGuards(TenantGuard)
+  // @UseGuards(TenantGuard)
   async login(@Body() loginDto: LoginDto, @CurrentTenant() tenant: Tenant) {
     return this.authService.login(loginDto, tenant);
   }

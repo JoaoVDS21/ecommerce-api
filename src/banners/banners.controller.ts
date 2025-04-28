@@ -5,8 +5,10 @@ import { CreateBannerDto } from './dto/create-banner.dto';
 import { UpdateBannerDto } from './dto/update-banner.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { storage } from 'src/common/utils/storage.multer';
+import { AuthTenantGuard } from 'src/auth/guards/auth-tenant.guard';
 
 @Controller('banners')
+@UseGuards(AuthTenantGuard)
 export class BannersController {
   constructor(private readonly bannersService: BannersService) {}
 

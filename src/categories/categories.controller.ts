@@ -7,6 +7,7 @@ import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 
 @Controller('categories')
+@UseGuards(AuthTenantGuard)
 export class CategoriesController {
   constructor(private readonly categoriesService: CategoriesService) {}
 
