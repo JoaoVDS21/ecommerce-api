@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { EcommerceProvider } from '../../../common/interfaces/ecommerce-provider.interface';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
+import { Product } from 'src/products/entities/product.entity';
 
 @Injectable()
 export class VtexService implements EcommerceProvider {
@@ -41,4 +42,12 @@ export class VtexService implements EcommerceProvider {
     );
     return response.data;
   }
+
+  async createProduct() {}
+
+  async updateProduct() {}
+
+  async deleteProduct() { return null as any}
+
+  async mapEcommerceProductToLocalProduct() { return null as any}
 }
