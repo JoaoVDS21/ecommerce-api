@@ -43,6 +43,9 @@ export class Product {
   @Column({nullable: true})
   imageUrl: string;
 
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  ecommerceProviderProductId?: string;
+
   @CreateDateColumn()
   createdAt: Date;
 

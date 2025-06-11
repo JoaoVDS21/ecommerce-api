@@ -17,13 +17,7 @@ export class TenantGuard implements CanActivate {
       const { tenant, contract } = await this.tenantService.getTenantWithActiveContract(tenantId);
       
       // Attach tenant info to the request
-      request.tenant = {
-        id: tenant.id,
-        name: tenant.name,
-        contractId: contract.id,
-        providerType: contract.ecommerceProvider,
-        config: contract.config,
-      };
+      request.tenant = tenant;
       
       return true;
     } catch (error) {

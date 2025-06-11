@@ -31,4 +31,8 @@ export class CreateProductDto {
 
   @IsOptional()
   imageUrl: string;
+
+  @IsString()
+  @IsOptional()
+  ecommerceProviderProductId?: string;
 }

@@ -10,6 +10,8 @@ import { ShelvesModule } from './shelves/shelves.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { BannersModule } from './banners/banners.module';
+import { APP_GUARD } from '@nestjs/core';
+import { TenantGuard } from './common/guards/tenant.guard';
 
 @Module({
   imports: [
@@ -36,5 +38,11 @@ import { BannersModule } from './banners/banners.module';
     ShelvesModule,
     BannersModule
   ],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: TenantGuard
+    }
+  ]
 })
 export class AppModule {}
