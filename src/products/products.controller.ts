@@ -9,7 +9,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { storage } from 'src/common/utils/storage.multer';
 
 @Controller('products')
-@UseGuards(AuthTenantGuard)
+// @UseGuards(AuthTenantGuard)
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
